@@ -5,13 +5,12 @@ from nltk.tokenize import word_tokenize
 import spacy
 
 morph = pymorphy2.MorphAnalyzer()
-stop_words = set(stopwords.words('russian'))
 
 nlp = spacy.load('en_core_web_sm')
-stopwords = nlp.Defaults.stop_words
 
-def multipreprocessing_text(text):
-    filtered_text = re.sub(r'[^a-zA-Zа-яА-ЯёЁ0-9\s]', '', text)
+
+def multipreprocessing_text(stop_words, text):
+    filtered_text = re.sub(r'[^а-яА-ЯёЁ\s]', '', text)
     word_tokens = word_tokenize(filtered_text.lower(), language='russian')
     filtered_text = [word for word in word_tokens if word not in stop_words]
     lem = [morph.normal_forms(word)[0] for word in filtered_text]
